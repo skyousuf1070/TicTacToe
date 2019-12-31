@@ -1,6 +1,8 @@
 public class Grid {
     private String[][] gridContainer;
-    private boolean isXTurn, isOTurn;
+    private String symbol;
+    private int rowLowerLimit, rowUpperLimit;
+    private int columnLowerLimit, columnUpperLimit;
 
     public Grid() {
         gridContainer = new String[][]{
@@ -8,29 +10,36 @@ public class Grid {
                 {"-", "-", "-"},
                 {"-", "-", "-"},
         };
-        isXTurn = true;
-        isOTurn = false;
+        symbol = "X";
+        rowLowerLimit = 0;
+        rowUpperLimit = 2;
+        columnLowerLimit = 0;
+        columnUpperLimit = 2;
     }
 
-    public boolean set(int row, int column) {
-        if (row < 0 || row > 2 || column < 0 || column > 2) {
+    public boolean isValid(int row, int column) {
+        if (row < rowLowerLimit || row > rowUpperLimit || column < columnLowerLimit || column > columnUpperLimit) {
             System.out.println("Invalid Locations");
             return false;
         } else if (gridContainer[row][column].equals("X") || gridContainer[row][column].equals("O")) {
             System.out.println("Current location is already occupied");
             return false;
-        } else {
-            if (isXTurn) {
-                gridContainer[row][column] = "X";
-                isXTurn = false;
-                isOTurn = true;
-            } else {
+        }
+        return true;
+    }
+
+    public boolean isSet(int row, int column) {
+        if (isValid(row, column)) {
+            if (symbol.equals("O")) {
                 gridContainer[row][column] = "O";
-                isOTurn = false;
-                isXTurn = true;
+                symbol = "X";
+            } else {
+                gridContainer[row][column] = "X";
+                symbol = "O";
             }
             return true;
         }
+        return false;
     }
 
     public boolean isGameCompleted() {

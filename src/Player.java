@@ -23,7 +23,7 @@ public class Player {
         System.out.print("Enter row number and column number: ");
         int row = scanner.nextInt();
         int column = scanner.nextInt();
-        while (!grid.set(row, column)) {
+        while (!grid.isSet(row, column)) {
             System.out.print("Enter row number and column number: ");
             row = scanner.nextInt();
             column = scanner.nextInt();
