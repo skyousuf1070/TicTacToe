@@ -2,28 +2,26 @@ import java.util.Scanner;
 
 public class Player {
     private String name;
-    private Grid grid;
-    private Scanner scanner;
+    private String symbol;
 
-    public Player(String name, Grid grid) {
+    public Player(String name, String symbol) {
         this.name = name;
-        this.grid = grid;
-        scanner = new Scanner(System.in);
+        this.symbol = symbol;
     }
 
-    public Player(Grid grid) {
+    public Player(String symbol) {
         this.name = "Yousuf";
-        this.grid = grid;
-        scanner = new Scanner(System.in);
+        this.symbol = symbol;
     }
 
-    public void play() {
+    public void play(Grid grid) {
+        Scanner scanner = new Scanner(System.in);
         System.out.println("\n\nBefore " + name + "'s Turn");
         grid.display();
         System.out.print("Enter row number and column number: ");
         int row = scanner.nextInt();
         int column = scanner.nextInt();
-        while (!grid.isSet(row, column)) {
+        while (!grid.isSet(row, column, symbol)) {
             System.out.print("Enter row number and column number: ");
             row = scanner.nextInt();
             column = scanner.nextInt();
@@ -35,4 +33,5 @@ public class Player {
     public String getName() {
         return name;
     }
+
 }

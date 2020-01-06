@@ -1,63 +1,62 @@
 public class Grid {
-    private String[][] gridContainer;
-    private String symbol;
-    private int rowLowerLimit, rowUpperLimit;
-    private int columnLowerLimit, columnUpperLimit;
+    private String[][] cells;
+    private static final int LOWER_LIMIT = 0;
+    private static final int UPPER_LIMIT = 2;
 
     public Grid() {
-        gridContainer = new String[][]{
+        cells = new String[][]{
                 {"-", "-", "-"},
                 {"-", "-", "-"},
                 {"-", "-", "-"},
         };
-        symbol = "X";
-        rowLowerLimit = 0;
-        rowUpperLimit = 2;
-        columnLowerLimit = 0;
-        columnUpperLimit = 2;
     }
 
     public boolean isValid(int row, int column) {
-        if (row < rowLowerLimit || row > rowUpperLimit || column < columnLowerLimit || column > columnUpperLimit) {
+        boolean isRowColumnOutOfGridRange = row < LOWER_LIMIT || row > UPPER_LIMIT || column < LOWER_LIMIT || column > UPPER_LIMIT;
+        boolean isCellFilled = cells[row][column].equals("X") || cells[row][column].equals("O");
+        if (isRowColumnOutOfGridRange) {
             System.out.println("Invalid Locations");
             return false;
-        } else if (gridContainer[row][column].equals("X") || gridContainer[row][column].equals("O")) {
+        } else if (isCellFilled) {
             System.out.println("Current location is already occupied");
             return false;
         }
         return true;
     }
 
-    public boolean isSet(int row, int column) {
+    public boolean isSet(int row, int column, String symbol) {
         if (isValid(row, column)) {
-            if (symbol.equals("O")) {
-                gridContainer[row][column] = "O";
-                symbol = "X";
-            } else {
-                gridContainer[row][column] = "X";
-                symbol = "O";
-            }
+            cells[row][column] = symbol;
             return true;
         }
         return false;
     }
 
+    private boolean allCharactersSame(String string)
+    {
+        for (int strIndex = 1; strIndex < string.length(); strIndex++)
+            if (string.charAt(strIndex)=='_' && string.charAt(strIndex) != string.charAt(0))
+                return false;
+
+        return true;
+    }
+
     public boolean isGameCompleted() {
-        String firstDiagonalResult = gridContainer[0][0] + gridContainer[1][1] + gridContainer[2][2];
-        if (firstDiagonalResult.equals("XXX") || firstDiagonalResult.equals("OOO")) {
+        String firstDiagonalResult = cells[0][0] + cells[1][1] + cells[2][2];
+        if (allCharactersSame(firstDiagonalResult)) {
             return true;
         }
-        String secondDiagonalResult = gridContainer[0][2] + gridContainer[1][1] + gridContainer[2][0];
-        if (secondDiagonalResult.equals("XXX") || secondDiagonalResult.equals("OOO")) {
+        String secondDiagonalResult = cells[0][2] + cells[1][1] + cells[2][0];
+        if (allCharactersSame(secondDiagonalResult)) {
             return true;
         }
-        for (int i = 0; i < 3; i++) {
-            String columnResult = gridContainer[0][i] + gridContainer[1][i] + gridContainer[2][i];
-            if (columnResult.equals("XXX") || columnResult.equals("OOO")) {
+        for (int gridIndex = LOWER_LIMIT; gridIndex <= UPPER_LIMIT; gridIndex++) {
+            String columnResult = cells[0][gridIndex] + cells[1][gridIndex] + cells[2][gridIndex];
+            if (allCharactersSame(columnResult)) {
                 return true;
             }
-            String rowResult = gridContainer[i][0] + gridContainer[i][1] + gridContainer[i][2];
-            if (rowResult.equals("XXX") || rowResult.equals("OOO")) {
+            String rowResult = cells[gridIndex][0] + cells[gridIndex][1] + cells[gridIndex][2];
+            if (allCharactersSame(rowResult)) {
                 return true;
             }
         }
@@ -65,9 +64,9 @@ public class Grid {
     }
 
     public void display() {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                System.out.print(gridContainer[i][j] + " ");
+        for (int gridRowIndex = LOWER_LIMIT; gridRowIndex <= UPPER_LIMIT; gridRowIndex++) {
+            for (int gridColumnIndex = 0; gridColumnIndex < 3; gridColumnIndex++) {
+                System.out.print(cells[gridRowIndex][gridColumnIndex] + " ");
             }
             System.out.println();
         }

@@ -1,16 +1,23 @@
 public class TicTakToe {
+    private Grid grid;
+    private Player player1;
+    private Player player2;
+
+    public TicTakToe() {
+        grid = new Grid();
+        player1 = new Player("Naveen", "X");
+        player2 = new Player("Praveen", "O");
+    }
+
     public void launchGame() {
-        Grid grid = new Grid();
-        Player player1 = new Player("Naveen", grid);
-        Player player2 = new Player("Praveen", grid);
-        Player whoIsPlaying = player1;
+        String whoIsPlaying = "player1";
         while (!grid.isGameCompleted()) {
-            if (whoIsPlaying.equals(player1)) {
-                player1.play();
-                whoIsPlaying = player2;
+            if (whoIsPlaying.equals("player1")) {
+                player1.play(grid);
+                whoIsPlaying = "player2";
             } else {
-                player2.play();
-                whoIsPlaying = player1;
+                player2.play(grid);
+                whoIsPlaying = "player1";
             }
         }
         if (whoIsPlaying.equals(player1)) {
@@ -19,6 +26,7 @@ public class TicTakToe {
             System.out.println("Winner is " + player2.getName());
         }
     }
+
     public static void main(String[] args) {
         new TicTakToe().launchGame();
     }
