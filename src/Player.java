@@ -9,11 +9,6 @@ public class Player {
         this.symbol = symbol;
     }
 
-    public Player(String symbol) {
-        this.name = "Yousuf";
-        this.symbol = symbol;
-    }
-
     public void play(Grid grid) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("\n\nBefore " + name + "'s Turn");
